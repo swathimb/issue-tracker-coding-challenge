@@ -1,0 +1,53 @@
+<div class="filters">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Search"
+      (input)="onSearchInput($event)"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select
+      placeholder="Status"
+      (selectionChange)="onStatusSelect($event.value)"
+    >
+      <mat-option value="">All</mat-option>
+      <mat-option [value]="statusEnum.Open">Open</mat-option>
+      <mat-option [value]="statusEnum.InProgress">In Progress</mat-option>
+      <mat-option [value]="statusEnum.Done">Done</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-progress-bar *ngIf="loading$()" mode="indeterminate"></mat-progress-bar>
+
+<mat-list>
+  <mat-list-item *ngFor="let issue of issues$()">
+    <div class="issue">
+      <h3>{{issue.title}} 1</h3>
+      <p>{{issue.description}} 2</p>
+
+      <mat-button-toggle-group
+        [value]="issue.status"
+        (change)="updateStatus(issue.id, $event.value)"
+      >
+        <mat-button-toggle [value]="statusEnum.Open">Open</mat-button-toggle>
+        <mat-button-toggle [value]="statusEnum.InProgress"
+          >In Progress</mat-button-toggle
+        >
+        <mat-button-toggle [value]="statusEnum.Done">Done</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <button mat-icon-button color="warn" >
+        <mat-icon (click)="delete(issue.id)">delete</mat-icon>
+      </button>
+    </div>
+  </mat-list-item>
+</mat-list>
+
+<div *ngIf="error$() as err">
+  <mat-card color="warn">Error: {{ err?.message || err }}</mat-card>
+</div>
+
+<app-issue-form (create)="addIssue($event)"></app-issue-form>

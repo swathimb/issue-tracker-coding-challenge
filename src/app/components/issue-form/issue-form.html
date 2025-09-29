@@ -1,0 +1,15 @@
+<form class="issue-form">
+  <mat-form-field>
+    <input matInput placeholder="Title" [formControl]="titleCtrl" required />
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea
+      matInput
+      placeholder="Description"
+      [formControl]="descCtrl"
+    ></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="submit($event)" type="button">Add Issue</button>
+</form>
